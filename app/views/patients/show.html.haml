@@ -1,0 +1,94 @@
+.col-md-4.col-md-offset-4
+  .jumbotron
+    .text-center
+      %strong
+        %h3
+          %u
+            Patient:
+            = @patient.last_name + ", " + @patient.first_name
+        = "Patient Status: "
+        = workflow_state_helper(@patient)
+      %br
+      -if @patient.workflow_state == "waiting_room"
+        = link_to "To Doctor", to_doctor_patient_clinic_patient_path(@clinic, @patient), method: :patch
+        |
+        = link_to "To X-ray", to_xray_patient_clinic_patient_path(@clinic, @patient), method: :patch
+        |
+        = link_to "To Surgery", to_surgery_patient_clinic_patient_path(@clinic, @patient), method: :patch
+        |
+        = link_to "Leave", leave_patient_clinic_patient_path(@clinic, @patient), method: :patch
+      -elsif @patient.workflow_state == "doctor_checkup"
+        = link_to "To X-ray", to_xray_patient_clinic_patient_path(@clinic, @patient), method: :patch
+        |
+        = link_to "To Surgery", to_surgery_patient_clinic_patient_path(@clinic, @patient), method: :patch
+        |
+        = link_to "To Pay Bill", to_pay_bill_patient_clinic_patient_path(@clinic, @patient), method: :patch
+      -elsif @patient.workflow_state == "xray"
+        = link_to "To Doctor", to_doctor_patient_clinic_patient_path(@clinic, @patient), method: :patch
+        |
+        = link_to "To Surgery", to_surgery_patient_clinic_patient_path(@clinic, @patient), method: :patch
+        |
+        = link_to "To Pay Bill", to_pay_bill_patient_clinic_patient_path(@clinic, @patient), method: :patch
+      -elsif @patient.workflow_state == "surgery"
+        = link_to "To Doctor", to_doctor_patient_clinic_patient_path(@clinic, @patient), method: :patch
+        |
+        = link_to "To X-ray", to_xray_patient_clinic_patient_path(@clinic, @patient), method: :patch
+        |
+        = link_to "To Pay Bill", to_pay_bill_patient_clinic_patient_path(@clinic, @patient), method: :patch
+      -elsif @patient.workflow_state == "pay_bill"
+        = link_to "Leave", leave_patient_clinic_patient_path(@clinic, @patient), method: :patch
+      -elsif @patient.workflow_state == "left"
+        = link_to "Back in to Waiting Room", wait_patient_clinic_patient_path(@clinic, @patient), method: :patch
+      %br
+      %br
+      = link_to "Edit Patient/Medication", edit_clinic_patient_path(@clinic, @patient)
+      |
+      = link_to "Delete Patient", clinic_patient_path(@clinic, @patient), method: :delete
+      %br
+      = link_to "Return to Clinic", clinic_path(@clinic)
+      |
+      = link_to "Return to Main", root_path
+      %br
+  %p{class: "text-left"}
+    .list-group-item
+      %strong DOB:
+      = @patient.date_of_birth
+      %br/
+      %strong Symptoms:
+      = @patient.description
+      %br/
+      %strong Gender:
+      = @patient.gender
+      %br/
+      %strong Blood Type:
+      = @patient.blood_type
+      %br/
+      
+    %br/
+    .list-group-item
+      .text-center
+        .h4
+          %strong Patient Medications:
+      %ul
+        - @medications.each do |medication|
+          %li
+            = link_to medication.name, medication_path(medication)
+    %br
+    .list-group-item
+      .text-center
+        .h4
+          %strong Patient Doctor(s) Name:
+      %br
+      %ul
+        - @doctors.each do |doctor|
+          %li
+            = doctor.doctor_name
+            = link_to "Remove Doctor", destroy_doctor_clinic_patient_path(@patient, doctor), method: :delete
+
+      .text-center
+        = form_for @doctor, url: create_doctor_clinic_patient_path(@clinic, @patient) do |f|
+          .form_group
+            = f.label :doctor_name
+            = f.text_area :doctor_name, class: "form-control"
+            %br
+            = f.submit "Add Doctor", class: "btn btn-primary"
