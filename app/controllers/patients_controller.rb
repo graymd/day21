@@ -8,7 +8,12 @@ class PatientsController < ApplicationController
   ]
 
   def index
-    @patients = Patient.all
+    set_clinic
+    @patients = if !params[:q].blank?
+      Patient.where("first_name LIKE ? OR last_name LIKE ? OR date_of_birth LIKE ? OR description LIKE ? OR gender LIKE ? OR blood_type LIKE ? OR workflow_state LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%")
+    else
+      Patient.all
+    end
   end
 
   def show

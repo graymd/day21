@@ -46,6 +46,13 @@
       .text-center
         %strong Clinic Doctors:
         %br
+        = form_tag clinic_path(@clinic), method: :get, class: "navbar-form", role: "search" do
+          .input-group
+            = text_field_tag 'q2', params[:q2], class: "form-control", id: "srch-term", placeholder: "Search Doctors"
+            .input-group-btn
+              %button.btn.btn-default{:style => "width:40px;"}
+                %i.glyphicon.glyphicon-search
+        %br
         - @doctors.each do |doctor|
           = doctor.doctor_name
           = link_to "Delete Doctor", destroy_doctor_clinic_path(doctor), method: :delete
@@ -56,3 +63,24 @@
             = f.text_field :doctor_name, class: "form-control"
             %br/
           = f.submit "Add Doctor", class: "btn btn-primary"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

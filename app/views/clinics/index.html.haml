@@ -1,3 +1,11 @@
+= form_tag clinics_path, method: :get, class: "navbar-form", role: "search" do
+  .input-group
+    = text_field_tag 'q', params[:q], class: "form-control", id: "srch-term", placeholder: "Search Clinics"
+    .input-group-btn
+      %button.btn.btn-default{:style => "width:40px;"}
+        %i.glyphicon.glyphicon-search
+
+
 .col-md-12
   .col-md-4.col-md-offset-4
     .jumbotron

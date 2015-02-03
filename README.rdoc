@@ -4,6 +4,15 @@
 
 -look at creating into one single controller for workflow_state
 
+-added search functionality to clinics, medications, patients?? and doctors??
+  -need to fix the outline to be correct
+
+-need to change the generic option to show yes, no
+
+-add patients index link to clinic.
+
+-
+
 -------------------------------------------------------------------------
 hospital_day20 created 2 Feb 2015:
 

@@ -1,13 +1,25 @@
 class ClinicsController < ApplicationController
   def index
+
+    @clinics = if !params[:q].blank?
+      Clinic.where("name LIKE ? OR st_address LIKE ? OR city LIKE ? OR state LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%")
+
+    else
     @clinics = Clinic.all
+
+    end
   end
 
   def show
     @clinic = Clinic.find params[:id]
     @patients = @clinic.patients
     @doctor = Doctor.new
-    @doctors = @clinic.doctors
+    # @doctors = @clinic.doctors
+    @doctors = if !params[:q2].blank?
+      @clinic.doctors.where("doctor_name LIKE ?", "%#{params[:q2]}%")
+    else
+      @clinic.doctors
+    end
   end
   
   def new
