@@ -38,7 +38,7 @@ class ClinicsController < ApplicationController
   def update
     @clinic = Clinic.find params[:id]
     @clinic.update my_params
-    redirect_to clinics_path
+    redirect_to clinic_path(@clinic)
   end
 
   def destroy

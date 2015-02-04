@@ -36,7 +36,7 @@ class MedicationsController < ApplicationController
   def update
     @medication = Medication.find params[:id]
     @medication.update medication_params
-    redirect_to medications_path
+    redirect_to medication_path(@medication)
   end
 
   def destroy
